@@ -19,6 +19,7 @@ class RoomAdmin(admin.ModelAdmin):
     inlines = (RoomImageInline, )
     list_display = ('id', 'name', 'size', 'capacity', 'price', 'modified_date', 'created_date')
     list_filter = ('created_date', 'capacity')
+    prepopulated_fields = {"slug": ('name', 'size')}
     readonly_fields = ('modified_date', 'created_date')
     search_fields = ('name', )
     filter_horizontal = ('services', )
@@ -26,10 +27,10 @@ class RoomAdmin(admin.ModelAdmin):
 
 @admin.register(RoomReview)
 class RoomReviewAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'mark', 'modified_date', 'created_date')
+    list_display = ('id', 'name', 'room', 'mark', 'modified_date', 'created_date')
     list_filter = ('created_date', 'mark')
     readonly_fields = ('modified_date', 'created_date')
-    search_fields = ('name', )
+    search_fields = ('name', 'room__name')
 
     def has_add_permission(self, request):
         return False

@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 
 class BookingBaseModel(models.Model):
@@ -17,10 +20,12 @@ class RoomService(BookingBaseModel):
 
 
 class Room(BookingBaseModel):
+    slug = models.SlugField(null=True, blank=True, unique=True)
     size = models.CharField(max_length=221)
     capacity = models.IntegerField()
     price = models.DecimalField(max_digits=5, decimal_places=2)     # $999.99
     services = models.ManyToManyField(RoomService)
+    description = RichTextField(null=True, blank=True)
 
 
 
@@ -38,6 +43,7 @@ class RoomReview(BookingBaseModel):
         (4, 4),
         (5, 5),
     )
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='reviews')
     image = models.ImageField(upload_to='rooms/reviews', null=True, blank=True)
     mark = models.IntegerField(choices=MARK)
     message = models.TextField()
@@ -63,5 +69,12 @@ class Booking(models.Model):
         total = self.days * self.room.price
         return total
 
+
+def room_pre_save(instance, sender, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name + instance.size)
+
+
+pre_save.connect(room_pre_save, sender=Room)
 
 
