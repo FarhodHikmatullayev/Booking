@@ -85,8 +85,9 @@
                                     <span>{{ review.created_date }}</span>
                                     <h6>{{ review.name }}</h6>
                                 </div>
+
                                 <div class="reviwer-rating">
-                                    {% for i in 1|range_filter:review.mark %}
+                                    {% for i in review.mark|range_filter:"1,1" %}
                                         <i class="fa fa-star"></i>
                                     {% endfor %}
                                     

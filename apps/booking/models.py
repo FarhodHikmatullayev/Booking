@@ -52,7 +52,7 @@ class RoomReview(BookingBaseModel):
 class Booking(models.Model):
     client_name = models.CharField(max_length=221)
     client_phone = models.CharField(max_length=16)
-    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
     check_in = models.DateField()   # 2023-07-01
     check_out = models.DateField()  # 2023-07-04
     capacity = models.IntegerField()
