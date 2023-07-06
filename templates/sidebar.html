@@ -1,0 +1,70 @@
+{% load static %}
+{% load resent_blogs %}
+{% resent_blog as r_b %}
+{% get_tags as tags %}
+<div class="col-12 col-sm-8 col-md-6 col-lg-4">
+    <div class="roberto-sidebar-area pl-md-4">
+
+        <div class="single-widget-area mb-100">
+            <div class="newsletter-form">
+                <h5>Newsletter</h5>
+                <p>Subscribe our newsletter gor get notification new updates.</p>
+                <form action="#" method="post">
+                    <input type="email" name="nl-email" id="nlEmail" class="form-control"
+                           placeholder="Enter your email...">
+                    <button type="submit" class="btn roberto-btn w-100">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="single-widget-area mb-100">
+            <h4 class="widget-title mb-30">Recent News</h4>
+
+            {% for new in r_b.all %}
+                <div class="single-recent-post d-flex">
+                    {% if new.image %}
+                        <div class="post-thumb">
+                            <a href=""><img src="{{ new.image.url }}"
+                                            alt=""></a>
+                        </div>
+                    {% endif %}
+
+                    <div class="post-content">
+
+                        <div class="post-meta">
+                            <a href="" class="post-author">{{ new.created_date|date:"F d, Y" }}</a>
+                            <a href="{{ new.url_detail_blog }}" class="post-tutorial">Event</a>
+                        </div>
+                        <a href="{{ new.url_detail_blog }}" class="post-title">{{ new.title }}</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+        <div class="single-widget-area mb-100 clearfix">
+            <h4 class="widget-title mb-30">Tags</h4>
+
+            <ul class="popular-tags">
+                {% for tag in tags %}
+                    <li><a href="{% url 'blog:blog' %}?tag={{ tag.title }}">{{ tag.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="single-widget-area mb-100 clearfix">
+            <h4 class="widget-title mb-30">Instagram</h4>
+
+            <ul class="instagram-feeds">
+                <li><a href="#"><img src="{% static 'img/bg-img/33.jpg' %}" alt=""></a></li>
+                <li><a href="#"><img src="{% static 'img/bg-img/34.jpg' %}" alt=""></a></li>
+                <li><a href="#"><img src="{% static 'img/bg-img/35.jpg' %}" alt=""></a></li>
+                <li><a href="#"><img src="{% static 'img/bg-img/36.jpg' %}" alt=""></a></li>
+                <li><a href="#"><img src="{% static 'img/bg-img/37.jpg' %}" alt=""></a></li>
+                <li><a href="#"><img src="{% static 'img/bg-img/38.jpg' %}" alt=""></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
