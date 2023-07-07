@@ -15,6 +15,7 @@ class BookingBaseModel(models.Model):
     def __str__(self):
         return self.name
 
+
 class RoomService(BookingBaseModel):
     image = models.ImageField(upload_to='rooms/services/', null=True, blank=True)
 
@@ -23,16 +24,14 @@ class Room(BookingBaseModel):
     slug = models.SlugField(null=True, blank=True, unique=True)
     size = models.CharField(max_length=221)
     capacity = models.IntegerField()
-    price = models.DecimalField(max_digits=5, decimal_places=2)     # $999.99
+    price = models.DecimalField(max_digits=5, decimal_places=2)  # $999.99
     services = models.ManyToManyField(RoomService)
     description = RichTextField(null=True, blank=True)
-
 
 
 class RoomImage(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='rooms/')
-
 
 
 class RoomReview(BookingBaseModel):
@@ -53,11 +52,10 @@ class Booking(models.Model):
     client_name = models.CharField(max_length=221)
     client_phone = models.CharField(max_length=16)
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
-    check_in = models.DateField()   # 2023-07-01
+    check_in = models.DateField()  # 2023-07-01
     check_out = models.DateField()  # 2023-07-04
     capacity = models.IntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
-
 
     @property
     def days(self):
@@ -76,5 +74,3 @@ def room_pre_save(instance, sender, *args, **kwargs):
 
 
 pre_save.connect(room_pre_save, sender=Room)
-
-

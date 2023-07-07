@@ -3,169 +3,140 @@
 {% load range_filter %}
 {% block content %}
 
-<div class="breadcrumb-area bg-img bg-overlay jarallax" style="background-image: url({% static 'img/bg-img/16.jpg' %});">
-    <div class="container h-100">
-        <div class="row h-100 align-items-end">
-            <div class="col-12">
-                <div class="breadcrumb-content d-flex align-items-center justify-content-between pb-5">
-                    <h2 class="room-title">{{ object.name }}</h2>
-                    <h2 class="room-price">${{ object.price }} <span>/ Per Night</span></h2>
+    <div class="breadcrumb-area bg-img bg-overlay jarallax"
+         style="background-image: url({% static 'img/bg-img/16.jpg' %});">
+        <div class="container h-100">
+            <div class="row h-100 align-items-end">
+                <div class="col-12">
+                    <div class="breadcrumb-content d-flex align-items-center justify-content-between pb-5">
+                        <h2 class="room-title">{{ object.name }}</h2>
+                        <h2 class="room-price">${{ object.price }} <span>/ Per Night</span></h2>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="roberto-rooms-area section-padding-100-0">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8">
+    <div class="roberto-rooms-area section-padding-100-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8">
 
-                <div class="single-room-details-area mb-50">
+                    <div class="single-room-details-area mb-50">
 
-                    <div class="room-thumbnail-slides mb-50">
-                        <div id="room-thumbnail--slide" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
+                        <div class="room-thumbnail-slides mb-50">
+                            <div id="room-thumbnail--slide" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
 
-                                <div class="carousel-item active">
-                                    <img src="{{ object.roomimage_set.first.image.url }}" class="d-block w-100" alt="">
+                                    <div class="carousel-item active">
+                                        <img src="{{ object.roomimage_set.first.image.url }}" class="d-block w-100"
+                                             alt="">
+                                    </div>
+
                                 </div>
+                                <ol class="carousel-indicators">
+                                    {% for img in object.roomimage_set.all %}
 
+                                        <li data-target="#room-thumbnail--slide" data-slide-to="{{ forloop.counter0 }}"
+                                            class="{% if forloop.counter0 == 0 %}active{% endif %}">
+                                            <img src="{{ img.image.url }}" class="d-block w-100" alt="">
+                                        </li>
+
+                                    {% endfor %}
+
+                                </ol>
                             </div>
-                            <ol class="carousel-indicators">
-                                {% for img in object.roomimage_set.all %}
-
-                                    <li data-target="#room-thumbnail--slide" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.counter0 == 0 %}active{% endif %}">
-                                        <img  src="{{ img.image.url }}" class="d-block w-100" alt="">
-                                    </li>
-
-                                {% endfor %}
-
-                            </ol>
                         </div>
+
+                        <div class="room-features-area d-flex flex-wrap mb-50">
+                            <h6>Size: <span>{{ object.size }}</span></h6>
+                            <h6>Capacity: <span>Max persion {{ object.capacity }}</span></h6>
+                            <h6>Bed: <span>King beds</span></h6>
+                            <h6>Services: <span>{% for i in object.services.all %}{{ i.name }}, {% endfor %}</span></h6>
+                        </div>
+
+                        {{ object.description|safe }}
+
                     </div>
 
-                    <div class="room-features-area d-flex flex-wrap mb-50">
-                        <h6>Size: <span>{{ object.size }}</span></h6>
-                        <h6>Capacity: <span>Max persion {{ object.capacity }}</span></h6>
-                        <h6>Bed: <span>King beds</span></h6>
-                        <h6>Services: <span>{% for i in object.services.all %}{{ i.name }}, {% endfor %}</span></h6>
+                    <div class="room-service mb-50">
+                        <h4>Room Services</h4>
+                        <ul>
+                            {% for foo in object.services.all %}
+                                <li><img src="{{ foo.image.url }}" alt=""> {{ foo.name }}</li>
+                            {% endfor %}
+
+
+                        </ul>
                     </div>
 
-                    {{ object.description|safe }}
+                    <div class="room-review-area mb-100">
+                        <h4>Room Review</h4>
+                        {% for review in reviews %}
+                            <div class="single-room-review-area d-flex align-items-center">
+                                <div class="reviwer-thumbnail">
+                                    {% if review.image %}
+                                        <img src="{{ review.image.url }}" alt="">
+                                    {% else %}
+                                        <img src="{% static 'img/bg-img/53.jpg' %}" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="reviwer-content">
+                                    <div class="reviwer-title-rating d-flex align-items-center justify-content-between">
+                                        <div class="reviwer-title">
+                                            <span>{{ review.created_date }}</span>
+                                            <h6>{{ review.name }}</h6>
+                                        </div>
 
-                </div>
+                                        <div class="reviwer-rating">
+                                            {% for i in review.mark|range_filter:"1,1" %}
+                                                <i class="fa fa-star"></i>
+                                            {% endfor %}
 
-                <div class="room-service mb-50">
-                    <h4>Room Services</h4>
-                    <ul>
-                        {% for foo in object.services.all %}
-                            <li><img src="{{ foo.image.url }}" alt=""> {{ foo.name }}</li>
+                                        </div>
+                                    </div>
+                                    <p>{{ review.message }}</p>
+                                </div>
+                            </div>
                         {% endfor %}
 
-
-                    </ul>
-                </div>
-
-                <div class="room-review-area mb-100">
-                    <h4>Room Review</h4>
-                    {% for review in reviews %}
-                        <div class="single-room-review-area d-flex align-items-center">
-                        <div class="reviwer-thumbnail">
-                            {% if review.image %}
-                                <img src="{{ review.image.url }}" alt="">
-                            {% else %}
-                                <img src="{% static 'img/bg-img/53.jpg' %}" alt="">
-                            {% endif %}
-                        </div>
-                        <div class="reviwer-content">
-                            <div class="reviwer-title-rating d-flex align-items-center justify-content-between">
-                                <div class="reviwer-title">
-                                    <span>{{ review.created_date }}</span>
-                                    <h6>{{ review.name }}</h6>
-                                </div>
-
-                                <div class="reviwer-rating">
-                                    {% for i in review.mark|range_filter:"1,1" %}
-                                        <i class="fa fa-star"></i>
-                                    {% endfor %}
-                                    
-                                </div>
-                            </div>
-                            <p>{{ review.message }}</p>
-                        </div>
                     </div>
-                    {% endfor %}
-
                 </div>
-            </div>
-            <div class="col-12 col-lg-4">
+                <div class="col-12 col-lg-4">
 
-                <div class="hotel-reservation--area mb-100">
-                    <form action="#" method="post">
-                        <div class="form-group mb-30">
-                            <label for="checkInDate">Date</label>
-                            <div class="input-daterange" id="datepicker">
+                    <div class="hotel-reservation--area mb-100">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <div class="form-group mb-30">
+                                <label for="name">Name</label>
+
                                 <div class="row no-gutters">
-                                    <div class="col-6">
-                                        <input type="text" class="input-small form-control" name="checkInDate"
-                                               id="checkInDate" placeholder="Check In">
-                                    </div>
-                                    <div class="col-6">
-                                        <input type="text" class="input-small form-control" name="checkOutDate"
-                                               placeholder="Check Out">
+                                    <div class="col-12">
+                                        <input type="text" class="input-small form-control" name="name"
+                                               id="name" placeholder="Your name" required>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
-                        <div class="form-group mb-30">
-                            <label for="guests">Guests</label>
-                            <div class="row">
-                                <div class="col-6">
-                                    <select name="adults" id="guests" class="form-control">
-                                        <option value="adults">Adults</option>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="04">04</option>
-                                        <option value="05">05</option>
-                                        <option value="06">06</option>
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <select name="children" id="children" class="form-control">
-                                        <option value="children">Children</option>
-                                        <option value="01">01</option>
-                                        <option value="02">02</option>
-                                        <option value="03">03</option>
-                                        <option value="04">04</option>
-                                        <option value="05">05</option>
-                                        <option value="06">06</option>
-                                    </select>
+                            <div class="form-group mb-30">
+                                <label for="phone">Phone</label>
+                                <div class="row no-gutters">
+                                    <div class="col-12">
+                                        <input type="text" class="input-small form-control" name="phone"
+                                               id="phone" placeholder="90.000-00-00" required>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group mb-50">
-                            <div class="slider-range">
-                                <div class="range-price">Max Price: $0 - $3000</div>
-                                <div data-min="0" data-max="3000" data-unit="$"
-                                     class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
-                                     data-value-min="0" data-value-max="3000" data-label-result="Max Price: ">
-                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn roberto-btn w-100">Booking</button>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn roberto-btn w-100">Check Available</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
