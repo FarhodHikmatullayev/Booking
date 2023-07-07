@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404, HttpResponse, reverse, redirect
+import datetime
+
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib import messages
-import datetime
+from django.shortcuts import render, get_object_or_404, HttpResponse, redirect
+
 from .models import Room, RoomReview, Booking
 
 
@@ -23,9 +25,23 @@ def room(request):
         checkin_date = datetime.date(int(checkin_lst[0]), int(checkin_lst[1]), int(checkin_lst[2]))  # 2023-07-05
         if checkin_date < datetime.datetime.today().date():
             return HttpResponse("checkin must be grater than today")
-        rooms = Room.objects.filter(Q(Q(bookings__check_in__gt=checkout) |
-                                      Q(bookings__check_out__lte=checkin) |
-                                      Q(bookings__isnull=True)) & Q(capacity__gte=count_person))
+
+        busy_rooms_set = set()
+
+        bookings = Booking.objects.filter(
+            check_out__gte=checkin,
+            check_in__lte=checkout
+        ).values_list('room_id',)
+        print(bookings)
+        for i in bookings:
+            busy_rooms_set.add(i[0])
+        print(busy_rooms_set)
+        rooms = Room.objects.exclude(id__in=busy_rooms_set)
+        # rooms = Room.objects.filter(Q(Q(bookings__check_in__gt=checkout) |
+        #                               Q(bookings__check_out__lte=checkin) |
+        #                               Q(bookings__isnull=True)) & Q(capacity__gte=count_person)).distinct()
+        # rooms = Room.objects.exclude(Q(bookings__check_in__lte=checkout), Q(bookings__check_out__gte=checkin))
+        # User.objects.exclude(id=request.user.id)
 
     paginator = Paginator(rooms, 5)  # Show 5 rooms per page.
     page_number = request.GET.get("page")

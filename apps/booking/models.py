@@ -28,6 +28,13 @@ class Room(BookingBaseModel):
     services = models.ManyToManyField(RoomService)
     description = RichTextField(null=True, blank=True)
 
+    def is_free(self, check_in, check_out):
+        bookings = self.bookings.filter(
+            check_out__gt=check_in,
+            check_in__lt=check_out
+        )
+        return not bookings.exists()
+
 
 class RoomImage(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
