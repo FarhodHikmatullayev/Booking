@@ -42,7 +42,8 @@
 
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
 
-                    <a class="nav-brand" href="{% url 'home:index' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                    <a class="nav-brand" href="{% url 'home:index' %}"><img src="{% static 'img/core-img/logo.png' %}"
+                                                                            alt=""></a>
 
                     <div class="classy-navbar-toggler">
                         <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -56,6 +57,7 @@
 
                         <div class="classynav">
                             <ul id="nav">
+
                                 <li class="active"><a href="{% url 'home:index' %}">Home</a></li>
                                 <li><a href="{% url 'booking:room' %}">Rooms</a></li>
                                 <li><a href="{% url 'home:about' %}">About Us</a></li>
@@ -66,17 +68,16 @@
                                         <li><a href="{% url 'home:about' %}">- About Us</a></li>
                                         <li><a href="{% url 'blog:blog' %}">- Blog</a></li>
                                         <li><a href="{% url 'contact:contact' %}">- Contact</a></li>
-{#                                        <li><a href="#">- Dropdown</a>#}
-{#                                            <ul class="dropdown">#}
-{#                                                <li><a href="#">- Dropdown Item</a></li>#}
-{#                                                <li><a href="#">- Dropdown Item</a></li>#}
-{#                                                <li><a href="#">- Dropdown Item</a></li>#}
-{#                                                <li><a href="#">- Dropdown Item</a></li>#}
-{#                                            </ul>#}
-{#                                        </li>#}
+                                        {#                                        <li><a href="#">- Dropdown</a>#}
+                                        {#                                            <ul class="dropdown">#}
+                                        {#                                                <li><a href="#">- Dropdown Item</a></li>#}
+                                        {#                                                <li><a href="#">- Dropdown Item</a></li>#}
+                                        {#                                                <li><a href="#">- Dropdown Item</a></li>#}
+                                        {#                                                <li><a href="#">- Dropdown Item</a></li>#}
+                                        {#                                            </ul>#}
+                                        {#                                        </li>#}
                                     </ul>
                                 </li>
-                                <li><a href="#">News</a></li>
                                 <li><a href="{% url 'contact:contact' %}">Contact</a></li>
                             </ul>
 
@@ -84,9 +85,7 @@
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </div>
 
-                            <div class="book-now-btn ml-3 ml-lg-5">
-                                <a href="#">Book Now <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                            </div>
+
                         </div>
 
                     </div>

@@ -1,3 +1,4 @@
+{% load static %}
 <footer class="footer-area section-padding-80-0">
 
     <div class="main-footer-area">
@@ -7,7 +8,7 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="single-footer-widget mb-80">
 
-                        <a href="#" class="footer-logo"><img src="img/core-img/logo2.png" alt=""></a>
+                        <a href="#" class="footer-logo"><img src="{% static 'img/core-img/logo2.png' %}" alt=""></a>
                         <h4>+12 345-678-9999</h4>
                         <span><a href="https://preview.colorlib.com/cdn-cgi/l/email-protection" class="__cf_email__"
                                  data-cfemail="baf3d4dcd594d9d5d6d5c8d6d3d8faddd7dbd3d694d9d5d7">[email&#160;protected]</a></span>
@@ -38,10 +39,11 @@
                         <h5 class="widget-title">Links</h5>
 
                         <ul class="footer-nav">
-                            <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> About Us</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Our Room</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Career</a></li>
-                            <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> FAQs</a></li>
+                            <li><a href="{% url 'home:about' %}"><i class="fa fa-caret-right" aria-hidden="true"></i> About Us</a></li>
+                            <li><a href="{% url 'booking:room' %}"><i class="fa fa-caret-right" aria-hidden="true"></i> Our Rooms</a></li>
+                            <li><a href="{% url 'contact:contact' %}"><i class="fa fa-caret-right" aria-hidden="true"></i> Contact</a></li>
+                            <li><a href="{% url 'blog:blog' %}"><i class="fa fa-caret-right" aria-hidden="true"></i> Blogs</a></li>
+                            <li><a href="{% url 'home:index' %}"><i class="fa fa-caret-right" aria-hidden="true"></i> Home</a></li>
                         </ul>
                     </div>
                 </div>
